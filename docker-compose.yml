@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:5
+    restart: on-failure
+    environment:
+      - MYSQL_DATABASE=bell
+      - MYSQL_ROOT_PASSWORD=integrator
+    volumes:
+      - ./db:/var/lib/mysql
+    ports:
+      - 3306:3306

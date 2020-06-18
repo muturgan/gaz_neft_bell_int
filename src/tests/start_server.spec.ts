@@ -3,8 +3,8 @@ import { startServer } from '../start_server';
 import axios from 'axios';
 import config from '../nconf';
 
-const host = config.get('host');
-const port = config.get('port');
+const HOST = config.get('host');
+const PORT = config.get('port');
 
 
 describe('testing our server', () =>
@@ -24,7 +24,7 @@ describe('testing our server', () =>
    {
       const answer = await axios.request({
          method: 'POST',
-         url: `http://${host}:${port}/graphql`,
+         url: `http://${HOST}:${PORT}/graphql`,
          headers: {
             'Content-Type': 'application/json',
          },
