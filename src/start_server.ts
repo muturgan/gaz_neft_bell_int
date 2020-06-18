@@ -1,8 +1,12 @@
 import 'reflect-metadata';
-import { ApolloServer } from 'apollo-server-express';
-import express from 'express';
-import { buildSchema, Resolver, Query } from 'type-graphql';
 import type { Server } from 'http';
+import { ApolloServer } from 'apollo-server-express';
+import { buildSchema, Resolver, Query } from 'type-graphql';
+import express from 'express';
+import config from './nconf';
+
+const host = config.get('host');
+const port = config.get('port');
 
 @Resolver()
 class HelloResolver {
@@ -24,7 +28,7 @@ export const startServer = async (): Promise<Server> =>
 
    apolloServer.applyMiddleware({ app });
 
-   return app.listen(3333, () => {
-      console.info('server started on http://localhost:3333/graphql');
+   return app.listen(port, () => {
+      console.info(`server started on http://${host}:${port}/graphql`);
    });
 };
