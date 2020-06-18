@@ -1,1 +1,3 @@
-export const amswerMainQuestion = () => 42;
+import { startServer } from './start_server';
+
+startServer();
