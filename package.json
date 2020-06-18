@@ -1,0 +1,40 @@
+{
+  "name": "gaz_neft_bell_int",
+  "version": "1.0.0",
+  "description": "My test task for Bell Integrator and GazpromNeft",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "rimraf dist && tsc",
+    "dev": "cross-env NODE_ENV=develompment nodemon",
+    "test": "npm run build && cross-env NODE_ENV=test jest --config jest.config.e2e.js --outputFile=coverage/result.json --json --forceExit --detectOpenHandles --coverage --verbose"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/muturgan/gaz_neft_bell_int.git"
+  },
+  "keywords": [],
+  "author": "Andrey Sakharov <caxap_8787@mail.ru>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/muturgan/gaz_neft_bell_int/issues"
+  },
+  "homepage": "https://github.com/muturgan/gaz_neft_bell_int#readme",
+  "dependencies": {
+    "mysql": "^2.18.1",
+    "type-graphql": "^1.0.0-rc.2",
+    "typedi": "^0.8.0",
+    "typeorm": "^0.2.25"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.0",
+    "@types/mysql": "^2.15.13",
+    "@types/node": "^14.0.13",
+    "cross-env": "^7.0.2",
+    "jest": "^26.0.1",
+    "nodemon": "^2.0.4",
+    "rimraf": "^3.0.2",
+    "ts-node": "^8.10.2",
+    "tslint": "^6.1.2",
+    "typescript": "^3.9.5"
+  }
+}
