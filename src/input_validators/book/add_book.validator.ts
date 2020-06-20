@@ -1,5 +1,5 @@
 import { Length, IsString, IsNotEmpty, IsInt, IsPositive } from 'class-validator';
-import { Field, InputType } from 'type-graphql';
+import { Field, InputType, Int } from 'type-graphql';
 import { integer } from '../../custom_types';
 
 @InputType()
@@ -12,14 +12,14 @@ export class AddBookInput
   public readonly name!: string;
 
 
-  @Field()
+  @Field(() => Int)
   @IsNotEmpty()
   @IsInt()
   @IsPositive()
   public readonly pageCount!: integer;
 
 
-  @Field()
+  @Field(() => Int)
   @IsNotEmpty()
   @IsInt()
   @IsPositive()

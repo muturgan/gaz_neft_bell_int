@@ -42,4 +42,10 @@ export class Book extends BaseEntity implements IBook
 
       return Book.find(options);
    }
+
+   public static async deleteBook(bookId: integer): Promise<boolean>
+   {
+      const result = await Book.delete(bookId);
+      return result.affected === 1;
+   }
 }

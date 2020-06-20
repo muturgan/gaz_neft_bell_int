@@ -1,6 +1,6 @@
 import { Resolver, Query, Mutation, Arg, Ctx } from 'type-graphql';
 import { Author } from '../entities';
-import { AddAuthorInput } from '../input_validators';
+import { AddAuthorInput, DeleteAuthorInput } from '../input_validators';
 import { parseGqlQuery } from '../utils';
 import type { TGetAuthorsQuery, ICtx } from '../custom_types';
 
@@ -21,5 +21,12 @@ export class AuthorResolver
    {
       const author = await Author.create(input).save();
       return author;
+   }
+
+
+   @Mutation(() => Boolean)
+   public deleteAuthor(@Arg('input', () => DeleteAuthorInput) input: DeleteAuthorInput): Promise<boolean>
+   {
+      return Author.deleteAuthor(input.authorId);
    }
 }

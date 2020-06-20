@@ -31,4 +31,11 @@ export class Author extends BaseEntity implements IAuthor
 
       return Author.find(options);
    }
+
+
+   public static async deleteAuthor(authorId: integer): Promise<boolean>
+   {
+      const result = await Author.delete(authorId);
+      return result.affected === 1;
+   }
 }

@@ -1,6 +1,6 @@
 import { Resolver, Query, Mutation, Arg, Ctx } from 'type-graphql';
 import { Book } from '../entities';
-import { AddBookInput } from '../input_validators';
+import { AddBookInput, DeleteBookInput } from '../input_validators';
 import { parseGqlQuery } from '../utils';
 import type { TGetBooksQuery, ICtx } from '../custom_types';
 
@@ -21,5 +21,12 @@ export class BookResolver
    {
       const author = await Book.create(input).save();
       return author;
+   }
+
+
+   @Mutation(() => Boolean)
+   public deleteBook(@Arg('input', () => DeleteBookInput) input: DeleteBookInput): Promise<boolean>
+   {
+      return Book.deleteBook(input.bookId);
    }
 }
