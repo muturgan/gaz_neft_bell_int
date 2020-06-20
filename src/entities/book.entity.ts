@@ -1,26 +1,45 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, JoinColumn, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, JoinColumn, ManyToOne, FindManyOptions } from 'typeorm';
+import { ObjectType, Field, ID, Int } from 'type-graphql';
 import { Author } from './author.entity';
-import type { IBook } from '../custom_types';
+import type { IBook, integer, TGetBooksQuery } from '../custom_types';
 
 
+@ObjectType()
 @Entity('books')
 export class Book extends BaseEntity implements IBook
 {
-   @PrimaryGeneratedColumn()
-   public bookId!: number;
+   @Field(() => ID)
+   @PrimaryGeneratedColumn({unsigned: true})
+   public bookId!: integer;
 
-   @Column()
+   @Field()
+   @Column({type: 'varchar', length: 32})
    public name!: string;
 
-   @Column()
-   public pageCount!: number;
+   @Field(() => Int)
+   @Column({type: 'integer', unsigned: true})
+   public pageCount!: integer;
 
-   @Column()
-   public authorId!: number;
+   @Field(() => Int)
+   @Column({type: 'integer', unsigned: true})
+   public authorId!: integer;
 
 
 
+   @Field(() => Author)
    @ManyToOne(() => Author, (author) => author.authorId)
    @JoinColumn({ name: 'authorId' })
    public author!: Author;
+
+
+
+   public static getBooks(query: TGetBooksQuery): Promise<Book[]>
+   {
+      const options: FindManyOptions<Book> = {};
+      if ('author' in query.getBooks) {
+         options.relations = ['author'];
+      }
+
+      return Book.find(options);
+   }
 }
