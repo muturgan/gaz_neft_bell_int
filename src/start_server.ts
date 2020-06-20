@@ -1,55 +1,69 @@
 import 'reflect-metadata';
 import type { Server } from 'http';
-import { ApolloServer } from 'apollo-server-express';
-import { buildSchema, Resolver, Query } from 'type-graphql';
-import { createConnection } from 'typeorm';
-import { Book, Author } from './entities';
-import express from 'express';
+import express, { Express } from 'express';
+import type { Connection } from 'typeorm';
+import type { ApolloServer } from 'apollo-server-express';
 import config from './nconf';
+import { initApolloServer } from './init_apollo_server';
+import { initDatabase } from './init_db';
+import { integer } from './custom_types';
 
-const HOST = config.get('host');
-const PORT = config.get('port');
 
-const DB_TYPE = config.get('db_type');
-const DB_HOST = config.get('db_host');
-const DB_PORT = config.get('db_port');
-const DB_NAME = config.get('db_name');
-const DB_USER = config.get('db_user');
-const DB_PASS = config.get('db_password');
+export class Application
+{
+   private _server: Server | undefined;
+   private _db_conn: Connection | undefined;
+   private _apollo: ApolloServer | undefined;
 
-@Resolver()
-class HelloResolver {
-   @Query(() => String)
-   public helloWorld() {
-      return 'Hello World!';
+
+   constructor(
+      private readonly _host: string,
+      private readonly _port: integer,
+      private readonly _restInitialisator: () => Express,
+      private readonly _dbInitialisator: () => Promise<Connection>,
+      private readonly _apolloInitialisator: () => Promise<ApolloServer>,
+   ) {}
+
+
+   public async start(): Promise<void>
+   {
+      try {
+         const [conn, apollo] = await Promise.all([
+            this._dbInitialisator(),
+            this._apolloInitialisator(),
+         ]);
+         this._db_conn = conn;
+         this._apollo = apollo;
+
+         const app = this._restInitialisator();
+         this._apollo.applyMiddleware({app});
+
+         this._server = app.listen(this._port, this._host, () => {
+            console.info(`server started on http://${this._host}:${this._port}/graphql`);
+         });
+
+      } catch (err) {
+         console.error(err);
+         return this.stop();
+      }
+   }
+
+
+   public async stop(): Promise<void>
+   {
+      this._server?.close();
+
+      await Promise.all([
+         this._apollo?.stop(),
+         this._db_conn?.close(),
+      ]);
    }
 }
 
-export const startServer = async (): Promise<Server> =>
-{
-   await createConnection({
-      type: DB_TYPE,
-      database: DB_NAME,
-      host: DB_HOST,
-      port: DB_PORT,
-      username: DB_USER,
-      password: DB_PASS,
-      logging: false,
-      synchronize: true,
-      entities: [Book, Author],
-   });
-
-   const schema = await buildSchema({
-      resolvers: [HelloResolver],
-   });
-
-   const apolloServer = new ApolloServer({ schema });
-
-   const app = express();
-
-   apolloServer.applyMiddleware({ app });
-
-   return app.listen(PORT, () => {
-      console.info(`server started on http://${HOST}:${PORT}/graphql`);
-   });
-};
+export const application = new Application(
+   config.get('host'),
+   config.get('port'),
+   express,
+   initDatabase,
+   initApolloServer,
+);

@@ -9,5 +9,7 @@
   "db_host": "localhost",
   "db_port": 3306,
   "db_user": "root",
-  "db_password": "integrator"
+  "db_password": "integrator",
+  "db_logging": false,
+  "db_synchronize": true
 }

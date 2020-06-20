@@ -1,5 +1,4 @@
-import type { Server } from 'http';
-import { startServer } from '../start_server';
+import { application } from '../start_server';
 import axios from 'axios';
 import config from '../nconf';
 
@@ -7,16 +6,14 @@ const HOST = config.get('host');
 const PORT = config.get('port');
 
 
-describe('testing our server', () =>
+describe('hello resolver suite', () =>
 {
-   let server: Server;
-
    beforeAll(async () => {
-      server = await startServer();
+      await application.start();
    });
 
    afterAll(() => {
-      server.close();
+      application.stop();
    });
 
 
