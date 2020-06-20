@@ -13,7 +13,7 @@ export class Book extends BaseEntity implements IBook
    public bookId!: integer;
 
    @Field()
-   @Column({type: 'varchar', length: 32})
+   @Column({type: 'varchar', length: 34})
    public name!: string;
 
    @Field(() => Int)

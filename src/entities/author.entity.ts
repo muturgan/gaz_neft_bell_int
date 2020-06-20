@@ -13,7 +13,7 @@ export class Author extends BaseEntity implements IAuthor
    public authorId!: integer;
 
    @Field()
-   @Column({type: 'varchar', length: 32, unique: true})
+   @Column({type: 'varchar', length: 16, unique: true})
    public name!: string;
 
 

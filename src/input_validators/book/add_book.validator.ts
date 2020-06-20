@@ -8,7 +8,7 @@ export class AddBookInput
   @Field()
   @IsNotEmpty()
   @IsString()
-  @Length(1, 32)
+  @Length(1, 34)
   public readonly name!: string;
 
 

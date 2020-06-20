@@ -7,6 +7,6 @@ export class AddAuthorInput
   @Field()
   @IsNotEmpty()
   @IsString()
-  @Length(1, 32)
+  @Length(1, 16)
   public readonly name!: string;
 }

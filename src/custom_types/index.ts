@@ -8,6 +8,11 @@ export type Tree = {[key: string]: null | Tree};
 export interface IAuthor {
    authorId: integer;
    name: string;
+   books: IBook[];
+}
+
+export interface IAuthorCreateData {
+   name: string;
 }
 
 export interface IBook {
@@ -16,6 +21,12 @@ export interface IBook {
    pageCount: integer;
    authorId: integer;
    author: IAuthor;
+}
+
+export interface IBookCreateData {
+   name: string;
+   pageCount: integer;
+   authorId: integer;
 }
 
 export type TGetAuthorsQuery = {
