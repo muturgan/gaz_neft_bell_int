@@ -1,12 +1,11 @@
 import { application } from '../start_server';
 import axios, { AxiosRequestConfig } from 'axios';
-import config from '../nconf';
 
 
 describe(`let's test our resolvers...`, () =>
 {
-   const HOST = config.get('host');
-   const PORT = config.get('port');
+   const HOST = process.env.HOST;
+   const PORT = process.env.PORT;
 
    const testAuthorName = 'Karl Marks';
    const testBookName = 'Das Kapital';

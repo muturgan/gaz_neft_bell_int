@@ -4,10 +4,12 @@ services:
   db:
     image: mysql:5
     restart: on-failure
+    env_file:
+      - .env
     environment:
-      - MYSQL_DATABASE=bell
-      - MYSQL_ROOT_PASSWORD=integrator
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_ROOT_PASSWORD=${DB_PASS}
     volumes:
       - ./db:/var/lib/mysql
     ports:
-      - 3306:3306
+      - ${DB_PORT}:3306

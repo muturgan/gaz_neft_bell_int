@@ -3,7 +3,6 @@ import type { Server } from 'http';
 import express, { Express } from 'express';
 import type { Connection } from 'typeorm';
 import type { ApolloServer } from 'apollo-server-express';
-import config from './nconf';
 import { initApolloServer } from './init_apollo_server';
 import { initDatabase } from './init_db';
 import { integer } from './custom_types';
@@ -61,8 +60,8 @@ export class Application
 }
 
 export const application = new Application(
-   config.get('host'),
-   config.get('port'),
+   String(process.env.HOST),
+   Number(process.env.PORT),
    express,
    initDatabase,
    initApolloServer,
