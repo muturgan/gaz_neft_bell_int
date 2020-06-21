@@ -117,6 +117,49 @@ describe(`let's test our resolvers...`, () =>
    });
 
 
+   describe('try to get authors with a FieldResolver', () =>
+   {
+      test('get authors with books (with a FieldResolver)', async () =>
+      {
+         const answer = await axios.request(
+            generateAxiosConfig(
+               `{
+                  getAuthorsWithFieldResolver {
+                     authorId
+                     name
+                     books {
+                        name
+                     }
+                  }
+               }`,
+            ),
+         )
+         .then(res => res.data);
+
+         expect(typeof answer?.data?.getAuthorsWithFieldResolver?.[0]?.name).toBe('string');
+         expect(Array.isArray(answer?.data?.getAuthorsWithFieldResolver?.[0]?.books)).toBe(true);
+      });
+
+      test('get authors without books (with a FieldResolver)', async () =>
+      {
+         const answer = await axios.request(
+            generateAxiosConfig(
+               `{
+                  getAuthorsWithFieldResolver {
+                     authorId
+                     name
+                  }
+               }`,
+            ),
+         )
+         .then(res => res.data);
+
+         expect(typeof answer?.data?.getAuthorsWithFieldResolver?.[0]?.name).toBe('string');
+         expect('books' in answer?.data?.getAuthorsWithFieldResolver?.[0]).toBe(false);
+      });
+   });
+
+
 
    describe('book resolver suite', () =>
    {

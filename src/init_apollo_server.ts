@@ -1,6 +1,6 @@
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
-import { AuthorResolver, BookResolver, HelloResolver } from './resolvers';
+import { AuthorResolver, BookResolver, HelloResolver, AuthorResolverWithFieldResolver } from './resolvers';
 import type { GraphQLSchema } from 'graphql';
 
 
@@ -11,6 +11,7 @@ const buildGqlSchema = (): Promise<GraphQLSchema> =>
          AuthorResolver,
          BookResolver,
          HelloResolver,
+         AuthorResolverWithFieldResolver,
       ],
    });
 };
