@@ -1,4 +1,4 @@
-import { application } from '../start_server';
+import { expressApplication } from '../start_express';
 import axios, { AxiosRequestConfig } from 'axios';
 
 
@@ -29,11 +29,11 @@ describe(`let's test our resolvers...`, () =>
 
 
    beforeAll(async () => {
-      await application.start();
+      await expressApplication.start();
    });
 
    afterAll(async () => {
-      await application.stop();
+      await expressApplication.stop();
    });
 
 

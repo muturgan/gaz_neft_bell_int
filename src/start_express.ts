@@ -8,7 +8,7 @@ import { initDatabase } from './init_db';
 import { integer } from './custom_types';
 
 
-export class Application
+export class ExpressApplication
 {
    private _server: Server | undefined;
    private _db_conn: Connection | undefined;
@@ -59,7 +59,7 @@ export class Application
    }
 }
 
-export const application = new Application(
+export const expressApplication = new ExpressApplication(
    String(process.env.HOST),
    Number(process.env.PORT),
    express,

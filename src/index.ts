@@ -1,3 +1,3 @@
-import { application } from './start_server';
+import { expressApplication } from './start_express';
 
-application.start();
+expressApplication.start();
